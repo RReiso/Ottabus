@@ -1,6 +1,7 @@
-import { createTheme, ThemeProvider } from "@mui/material";
 import React from "react";
+import { createTheme, ThemeProvider } from "@mui/material";
 import "./App.css";
+import { TripsProvider } from "./components/context/TripsContext";
 import Header from "./components/Header/Header";
 import StopInput from "./components/StopInput/StopInput";
 
@@ -15,10 +16,12 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
-        <Header />
-        <StopInput />
-      </div>
+      <TripsProvider>
+        <div className="App">
+          <Header />
+          <StopInput />
+        </div>
+      </TripsProvider>
     </ThemeProvider>
   );
 }

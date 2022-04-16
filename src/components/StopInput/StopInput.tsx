@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, TextField, Stack, Button } from "@mui/material";
 
-const StopInput = () => {
+const StopInput = (): JSX.Element => {
   return (
     <Stack spacing={2} alignItems="center" component="form">
       <Typography variant="body1"> Enter stop number</Typography>

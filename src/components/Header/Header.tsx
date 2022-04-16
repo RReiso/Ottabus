@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import React from "react";
 
-const Header = () => {
+const Header = (): JSX.Element => {
   return (
     <header>
       <Typography variant="h1">OTTABUS</Typography>
