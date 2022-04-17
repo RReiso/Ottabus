@@ -1,12 +1,16 @@
 import React from "react";
 import { screen, render } from "@testing-library/react";
-import { TripsProvider } from "../../context/TripsContext";
+import { TripsContext, TripsProvider } from "../../context/TripsContext";
 import Trips from "../Trips";
 
 describe("Trips", () => {
+  interface Provider {
+    [key: string]: any;
+  }
+
   type TripsContextType = {
-    trips: string;
-    handleTrips: (value: string) => void;
+    trips: Provider | undefined;
+    handleTrips: (value: object) => void;
   };
 
   const data = {
@@ -33,27 +37,40 @@ describe("Trips", () => {
     },
   };
 
-  const mock: TripsContextType = {
-    trips: JSON.stringify(data),
+  const mockFull: TripsContextType = {
+    trips: data,
     handleTrips: jest.fn(),
   };
-  test("should display heading", () => {
+
+  const mockEmpty: TripsContextType = {
+    trips: undefined,
+    handleTrips: jest.fn(),
+  };
+
+  test("should display 'upcoming trips' text", () => {
     render(
-      <TripsProvider value={mock}>
+      <TripsContext.Provider value={mockFull}>
         <Trips />
-      </TripsProvider>
+      </TripsContext.Provider>
     );
-    expect(
-      screen.getByRole("heading", { name: /upcoming trips/i })
-    ).toBeInTheDocument();
+    expect(screen.getByText(/upcoming trips/i)).toBeInTheDocument();
   });
 
-  test("should display 3 list items", () => {
+  test("should display list given data", () => {
     render(
-      <TripsProvider value={mock}>
+      <TripsContext.Provider value={mockFull}>
         <Trips />
-      </TripsProvider>
+      </TripsContext.Provider>
     );
-    expect(screen.getAllByRole("list").length).toEqual(3);
+    expect(screen.getByRole("list")).toBeInTheDocument();
+  });
+
+  test("should display no list if no data given", () => {
+    render(
+      <TripsContext.Provider value={mockEmpty}>
+        <Trips />
+      </TripsContext.Provider>
+    );
+    expect(screen.queryByRole("list")).not.toBeInTheDocument();
   });
 });

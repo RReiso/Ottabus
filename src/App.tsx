@@ -1,9 +1,10 @@
 import React from "react";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, Stack, ThemeProvider } from "@mui/material";
 import "./App.css";
 import { TripsProvider } from "./components/context/TripsContext";
 import Header from "./components/Header/Header";
 import StopInput from "./components/StopInput/StopInput";
+import Trips from "./components/Trips/Trips";
 
 const theme = createTheme({
   typography: {
@@ -17,10 +18,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <TripsProvider>
-        <div className="App">
+        <Stack>
           <Header />
           <StopInput />
-        </div>
+          <Trips />
+        </Stack>
       </TripsProvider>
     </ThemeProvider>
   );
