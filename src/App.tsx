@@ -11,6 +11,11 @@ const theme = createTheme({
     h1: {
       fontSize: 24,
     },
+    caption: {
+      fontSize: 12,
+      lineHeight: 1,
+      color: "#6b6575",
+    },
   },
 });
 

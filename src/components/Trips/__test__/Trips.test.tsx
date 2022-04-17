@@ -1,6 +1,6 @@
 import React from "react";
 import { screen, render } from "@testing-library/react";
-import { TripsContext, TripsProvider } from "../../context/TripsContext";
+import { TripsContext } from "../../context/TripsContext";
 import Trips from "../Trips";
 
 describe("Trips", () => {
@@ -10,7 +10,9 @@ describe("Trips", () => {
 
   type TripsContextType = {
     trips: Provider | undefined;
+    location: Provider | undefined;
     handleTrips: (value: object) => void;
+    handleLocation: (value: object) => void;
   };
 
   const data = {
@@ -23,14 +25,17 @@ describe("Trips", () => {
           {
             RouteNo: "5",
             RouteHeading: "Rideau",
+            DirectionID: 1,
           },
           {
             RouteNo: "55",
             RouteHeading: "Bayshore",
+            DirectionID: 2,
           },
           {
             RouteNo: "56",
             RouteHeading: "Tunney's Pasture",
+            DirectionID: 3,
           },
         ],
       },
@@ -39,12 +44,16 @@ describe("Trips", () => {
 
   const mockFull: TripsContextType = {
     trips: data,
+    location: {},
     handleTrips: jest.fn(),
+    handleLocation: jest.fn(),
   };
 
   const mockEmpty: TripsContextType = {
     trips: undefined,
+    location: {},
     handleTrips: jest.fn(),
+    handleLocation: jest.fn(),
   };
 
   test("should display 'upcoming trips' text", () => {
@@ -63,6 +72,17 @@ describe("Trips", () => {
       </TripsContext.Provider>
     );
     expect(screen.getByRole("list")).toBeInTheDocument();
+  });
+
+  test("should display 3 list items", () => {
+    render(
+      <TripsContext.Provider value={mockFull}>
+        <Trips />
+      </TripsContext.Provider>
+    );
+    expect(screen.getAllByRole("listitem").length).toEqual(
+      data.GetRouteSummaryForStopResult.Routes.Route.length
+    );
   });
 
   test("should display no list if no data given", () => {
