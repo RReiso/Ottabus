@@ -5,6 +5,7 @@ import { TripsProvider } from "./components/context/TripsContext";
 import Header from "./components/Header/Header";
 import StopInput from "./components/StopInput/StopInput";
 import Trips from "./components/Trips/Trips";
+import Footer from "./components/Footer/Footer";
 
 const theme = createTheme({
   typography: {
@@ -23,11 +24,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <TripsProvider>
-        <Stack>
+        <Stack mb={10}>
           <Header />
           <StopInput />
           <Trips />
         </Stack>
+        <Footer />
       </TripsProvider>
     </ThemeProvider>
   );
