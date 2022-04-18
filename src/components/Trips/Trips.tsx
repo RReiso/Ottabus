@@ -1,5 +1,5 @@
-import { List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import React from "react";
+import { List, Stack, Typography } from "@mui/material";
 import { useTripsContext } from "../context/TripsContext";
 import Trip from "../Trip/Trip";
 

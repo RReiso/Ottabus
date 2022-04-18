@@ -29,7 +29,7 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
   const shapeStyles = { bgcolor: "primary.main", width: 30, height: 30 };
   const shapeCircleStyles = { borderRadius: "50%" };
   const bgColor = (time: string) =>
-    Number(time) < 10 ? "error.main" : "grey.500";
+    Number(time) < 10 ? "error.main" : "grey.600";
 
   return (
     <ListItem>
@@ -85,6 +85,9 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
                         bgcolor: bgColor(nextBus.AdjustedScheduleTime),
                         paddingX: 1,
                         cursor: "pointer",
+                        "&:hover": {
+                          opacity: 0.8,
+                        },
                       }}
                     >
                       <ListItemText
