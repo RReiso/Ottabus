@@ -9,15 +9,19 @@ describe("Trip", () => {
   type TripsContextType = {
     trips: undefined;
     location: undefined;
+    error: string;
     handleTrips: (value: object) => void;
     handleLocation: (value: object) => void;
+    handleError: (value: string) => void;
   };
 
   const mockContext: TripsContextType = {
     trips: undefined,
     location: undefined,
+    error: "",
     handleTrips: jest.fn(),
     handleLocation: jest.fn(),
+    handleError: jest.fn(),
   };
 
   const mockData = {

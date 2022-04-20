@@ -13,8 +13,10 @@ interface Provider {
 type TripsContextType = {
   trips: Provider | undefined;
   location: Provider | undefined;
+  error: string;
   handleTrips: (value: object) => void;
   handleLocation: (value: object) => void;
+  handleError: (value: string) => void;
 };
 const TripsContext = createContext<TripsContextType | null>(null);
 
@@ -25,6 +27,7 @@ const TripsProvider: FC<{ children: ReactNode; value?: TripsContextType }> = ({
 }) => {
   const [trips, setTrips] = useState<object>();
   const [location, setLocation] = useState<object>();
+  const [error, setError] = useState("");
 
   const handleTrips = (value: object) => {
     setTrips(value);
@@ -32,10 +35,20 @@ const TripsProvider: FC<{ children: ReactNode; value?: TripsContextType }> = ({
   const handleLocation = (value: object) => {
     setLocation(value);
   };
+  const handleError = (value: string) => {
+    setError(value);
+  };
 
   return (
     <TripsContext.Provider
-      value={{ trips, handleTrips, location, handleLocation }}
+      value={{
+        trips,
+        handleTrips,
+        location,
+        handleLocation,
+        error,
+        handleError,
+      }}
     >
       {children}
     </TripsContext.Provider>

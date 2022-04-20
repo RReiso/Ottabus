@@ -16,7 +16,6 @@ const Footer = (): JSX.Element => {
         const res = await axios.get(
           `https://api.openweathermap.org/data/2.5/weather?q=Ottawa,ca&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}`
         );
-        console.log("res", res);
         setWeather(res.data);
         setError("");
       } catch (error) {

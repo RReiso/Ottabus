@@ -1,20 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography, TextField, Stack, Button } from "@mui/material";
+import { useTripsContext } from "../context/TripsContext";
+import axios from "axios";
 
 const StopInput = (): JSX.Element => {
+  interface Provider {
+    [key: string]: any;
+  }
+
+  type TripsContextType = {
+    trips: Provider | undefined;
+    error: string;
+    handleTrips: (value: object) => void;
+    handleError: (value: string) => void;
+  };
+
+  const { handleTrips, error, handleError } =
+    useTripsContext() as TripsContextType;
+  const [stop, setStop] = useState("");
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (stop.length !== 4) {
+      handleError("Invalid stop number!");
+    } else {
+      const tripData = await fetchData(stop);
+      if (tripData) {
+        setStop("");
+        console.log("HERE");
+        handleTrips(tripData);
+        console.log("TE");
+      }
+    }
+  };
+
+  const fetchData = async (stopNumber: string) => {
+    try {
+      const res = await axios.get(
+        `https://serene-stream-71987.herokuapp.com/https://api.octranspo1.com/v2.0/GetNextTripsForStopAllRoutes?appID=${process.env.REACT_APP_OCTRANSPO_APP_ID}&apiKey=${process.env.REACT_APP_OCTRANSPO_API_KEY}&stopNo=${stopNumber}`
+      );
+      console.log("res", res.data);
+      if (res.data[1] === "<") {
+        handleError("Invalid stop number!");
+        return;
+      } else {
+        handleError("");
+        return res.data;
+      }
+    } catch (error) {
+      console.log("SET ERROR");
+      handleError("Data currently not available");
+    }
+  };
+
   return (
-    <Stack spacing={2} alignItems="center" component="form">
+    <Stack
+      mb={1}
+      spacing={2}
+      alignItems="center"
+      component="form"
+      onSubmit={handleSubmit}
+    >
       <Typography variant="body1"> Enter stop number</Typography>
       <TextField
         id="filled-basic"
         label="Stop number"
         variant="filled"
+        value={stop}
+        onChange={(e) => setStop(e.target.value)}
         required
         type="number"
       />
       <Button variant="contained" sx={{ width: "14rem" }} type="submit">
         Find trips
       </Button>
+
+      {error && (
+        <Typography color="red" variant="body2">
+          {error}
+        </Typography>
+      )}
     </Stack>
   );
 };

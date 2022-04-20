@@ -31,6 +31,46 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
   const bgColor = (time: string) =>
     Number(time) < 10 ? "error.main" : "grey.600";
 
+  const tripDetails = (arr: Array<{}>) => {
+    return arr.map((nextBus: Provider) => {
+      return (
+        <ListItem
+          onClick={() =>
+            handleLocation({
+              Longitude: nextBus.Longitude,
+              Latitude: nextBus.Latitude,
+            })
+          }
+          sx={{
+            padding: 0,
+            justifyContent: "center",
+          }}
+          key={nextBus.TripStartTime}
+        >
+          <Paper
+            sx={{
+              bgcolor: bgColor(nextBus.AdjustedScheduleTime),
+              paddingX: 1,
+              cursor: "pointer",
+              "&:hover": {
+                opacity: 0.8,
+              },
+            }}
+          >
+            <ListItemText
+              sx={{
+                lineHeight: 1,
+                color: "white",
+              }}
+            >
+              {nextBus.AdjustedScheduleTime}m
+            </ListItemText>
+          </Paper>
+        </ListItem>
+      );
+    });
+  };
+
   return (
     <ListItem>
       <Paper variant="outlined">
@@ -65,43 +105,9 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
                 padding: 0,
               }}
             >
-              {data.Trips.map((nextBus: Provider) => {
-                return (
-                  <ListItem
-                    onClick={() =>
-                      handleLocation({
-                        Longitude: nextBus.Longitude,
-                        Latitude: nextBus.Latitude,
-                      })
-                    }
-                    sx={{
-                      padding: 0,
-                      justifyContent: "center",
-                    }}
-                    key={nextBus.TripStartTime}
-                  >
-                    <Paper
-                      sx={{
-                        bgcolor: bgColor(nextBus.AdjustedScheduleTime),
-                        paddingX: 1,
-                        cursor: "pointer",
-                        "&:hover": {
-                          opacity: 0.8,
-                        },
-                      }}
-                    >
-                      <ListItemText
-                        sx={{
-                          lineHeight: 1,
-                          color: "white",
-                        }}
-                      >
-                        {nextBus.AdjustedScheduleTime}m
-                      </ListItemText>
-                    </Paper>
-                  </ListItem>
-                );
-              })}
+              {data.Trips.Trip
+                ? tripDetails(data.Trips.Trip)
+                : tripDetails(data.Trips)}
             </List>
           )}
           <Stack direction="row" alignItems="center" my={1} mt={2} mx={1}>

@@ -11,8 +11,10 @@ describe("Trips", () => {
   type TripsContextType = {
     trips: Provider | undefined;
     location: Provider | undefined;
+    error: string;
     handleTrips: (value: object) => void;
     handleLocation: (value: object) => void;
+    handleError: (value: string) => void;
   };
 
   const data = {
@@ -44,16 +46,20 @@ describe("Trips", () => {
 
   const mockFull: TripsContextType = {
     trips: data,
+    error: "",
     location: {},
     handleTrips: jest.fn(),
     handleLocation: jest.fn(),
+    handleError: jest.fn(),
   };
 
   const mockEmpty: TripsContextType = {
     trips: undefined,
     location: {},
+    error: "",
     handleTrips: jest.fn(),
     handleLocation: jest.fn(),
+    handleError: jest.fn(),
   };
 
   test("should display 'upcoming trips' text", () => {

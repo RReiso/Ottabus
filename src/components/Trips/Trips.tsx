@@ -96,10 +96,17 @@ const Trips = (): JSX.Element => {
             Upcoming Trips
           </Typography>
           <List>
-            {trips.GetRouteSummaryForStopResult.Routes.Route.map(
-              (trip: Provider) => (
-                <Trip data={trip} key={trip.DirectionID} />
+            {Array.isArray(trips.GetRouteSummaryForStopResult.Routes.Route) ? (
+              trips.GetRouteSummaryForStopResult.Routes.Route.map(
+                (trip: Provider) => <Trip data={trip} key={trip.DirectionID} />
               )
+            ) : (
+              <Trip
+                data={trips.GetRouteSummaryForStopResult.Routes.Route}
+                key={
+                  trips.GetRouteSummaryForStopResult.Routes.Route.DirectionID
+                }
+              />
             )}
           </List>
         </Stack>
