@@ -24,6 +24,7 @@ type TripsContextType = {
 };
 
 const Trip: FC<TripProps> = ({ data }): JSX.Element => {
+  console.log("data", data);
   const { handleLocation } = useTripsContext() as TripsContextType;
 
   const shapeStyles = { bgcolor: "primary.main", width: 30, height: 30 };
@@ -32,7 +33,9 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
     Number(time) < 10 ? "error.main" : "grey.600";
 
   const tripDetails = (arr: Array<{}>) => {
+    console.log("arr", arr);
     return arr.map((nextBus: Provider) => {
+      console.log("nextBus", nextBus);
       return (
         <ListItem
           onClick={() =>
@@ -105,9 +108,13 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
                 padding: 0,
               }}
             >
-              {data.Trips.Trip
+              {Array.isArray(data.Trips.Trip)
                 ? tripDetails(data.Trips.Trip)
-                : tripDetails(data.Trips)}
+                : Array.isArray(data.Trips)
+                ? tripDetails(data.Trips)
+                : data.Trips.Trip
+                ? tripDetails([data.Trips.Trip])
+                : tripDetails([data.Trips])}
             </List>
           )}
           <Stack direction="row" alignItems="center" my={1} mt={2} mx={1}>

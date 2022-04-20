@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 import { Typography, TextField, Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTripsContext } from "../context/TripsContext";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import axios from "axios";
 
-const StopInput = (): JSX.Element => {
+const StopInput: FC = (): JSX.Element => {
   interface Provider {
     [key: string]: any;
   }

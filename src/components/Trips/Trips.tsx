@@ -14,7 +14,7 @@ const Trips = (): JSX.Element => {
     handleTrips: (value: object) => void;
   };
 
-  const { trips, handleTrips, error } = useTripsContext() as TripsContextType;
+  const { trips, error } = useTripsContext() as TripsContextType;
   return (
     <>
       {error && (
@@ -27,7 +27,7 @@ const Trips = (): JSX.Element => {
           <Typography variant="h6">
             You are at stop {trips.GetRouteSummaryForStopResult.StopNo}
           </Typography>
-          <Typography variant="body1">
+          <Typography variant="body1" textAlign="center">
             {trips.GetRouteSummaryForStopResult.StopDescription}
           </Typography>
           <Typography variant="body1" mt={1}>
@@ -36,7 +36,7 @@ const Trips = (): JSX.Element => {
           <List>
             {Array.isArray(trips.GetRouteSummaryForStopResult.Routes.Route) ? (
               trips.GetRouteSummaryForStopResult.Routes.Route.map(
-                (trip: Provider) => <Trip data={trip} key={trip.DirectionID} />
+                (trip: Provider, idx: number) => <Trip data={trip} key={idx} />
               )
             ) : (
               <Trip
