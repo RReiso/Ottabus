@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Typography, TextField, Stack, Button } from "@mui/material";
+import { Typography, TextField, Stack } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useTripsContext } from "../context/TripsContext";
+import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import axios from "axios";
 
 const StopInput = (): JSX.Element => {
@@ -19,9 +21,12 @@ const StopInput = (): JSX.Element => {
     useTripsContext() as TripsContextType;
 
   const [stop, setStop] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
+
     if (stop.length !== 4) {
       handleError("Invalid stop number!");
     } else {
@@ -31,6 +36,7 @@ const StopInput = (): JSX.Element => {
         handleTrips(tripData);
       }
     }
+    setLoading(false);
   };
 
   const fetchData = async (stopNumber: string) => {
@@ -49,6 +55,7 @@ const StopInput = (): JSX.Element => {
     } catch (err) {
       handleError("Data currently not available");
     }
+    setLoading(false);
   };
 
   return (
@@ -69,9 +76,16 @@ const StopInput = (): JSX.Element => {
         required
         type="number"
       />
-      <Button variant="contained" sx={{ width: "14rem" }} type="submit">
-        Find trips
-      </Button>
+      <LoadingButton
+        variant="contained"
+        loading={loading}
+        sx={{ width: "14rem" }}
+        type="submit"
+        loadingPosition="start"
+        startIcon={<DirectionsBusIcon />}
+      >
+        {loading ? "Searching..." : "Find trips"}
+      </LoadingButton>
 
       {error && (
         <Typography color="red" variant="body2">

@@ -155,4 +155,22 @@ describe("StopInput", () => {
     );
     expect(mockContext.handleTrips).toHaveBeenCalledWith(mockResponseSuccess);
   });
+
+  test("should show loading button while fetching data from an API", async () => {
+    render(
+      <TripsContext.Provider value={mockContext}>
+        <StopInput />
+      </TripsContext.Provider>
+    );
+
+    const inputField: HTMLInputElement = screen.getByRole("spinbutton");
+    userEvent.type(inputField, "7633");
+    userEvent.click(screen.getByRole("button"));
+    const loadingButton = await screen.findByRole("button", {
+      name: /searching/i,
+    });
+
+    await waitFor(() => Promise.resolve());
+    expect(loadingButton).toBeInTheDocument();
+  });
 });
