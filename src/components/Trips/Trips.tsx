@@ -10,10 +10,11 @@ const Trips = (): JSX.Element => {
 
   type TripsContextType = {
     trips: Provider | undefined;
+    error: string;
     handleTrips: (value: object) => void;
   };
 
-  const { trips, handleTrips } = useTripsContext() as TripsContextType;
+  const { trips, handleTrips, error } = useTripsContext() as TripsContextType;
   return (
     <>
       <button
@@ -84,7 +85,12 @@ const Trips = (): JSX.Element => {
       >
         TT
       </button>
-      {trips && (
+      {error && (
+        <Typography variant="body1" textAlign="center">
+          No data to display
+        </Typography>
+      )}
+      {!error && trips && (
         <Stack alignItems="center" mt={3}>
           <Typography variant="h6">
             You are at stop {trips.GetRouteSummaryForStopResult.StopNo}

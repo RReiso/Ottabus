@@ -17,6 +17,7 @@ const StopInput = (): JSX.Element => {
 
   const { handleTrips, error, handleError } =
     useTripsContext() as TripsContextType;
+
   const [stop, setStop] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -27,9 +28,7 @@ const StopInput = (): JSX.Element => {
       const tripData = await fetchData(stop);
       if (tripData) {
         setStop("");
-        console.log("HERE");
         handleTrips(tripData);
-        console.log("TE");
       }
     }
   };
@@ -39,16 +38,15 @@ const StopInput = (): JSX.Element => {
       const res = await axios.get(
         `https://serene-stream-71987.herokuapp.com/https://api.octranspo1.com/v2.0/GetNextTripsForStopAllRoutes?appID=${process.env.REACT_APP_OCTRANSPO_APP_ID}&apiKey=${process.env.REACT_APP_OCTRANSPO_API_KEY}&stopNo=${stopNumber}`
       );
-      console.log("res", res.data);
       if (res.data[1] === "<") {
         handleError("Invalid stop number!");
-        return;
+      } else if (res.data.error || res.data === "API method not found") {
+        handleError("Error retrieving data");
       } else {
         handleError("");
         return res.data;
       }
-    } catch (error) {
-      console.log("SET ERROR");
+    } catch (err) {
       handleError("Data currently not available");
     }
   };

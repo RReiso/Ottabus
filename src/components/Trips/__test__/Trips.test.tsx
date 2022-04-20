@@ -91,6 +91,18 @@ describe("Trips", () => {
     );
   });
 
+  test("should not display trips if error is present", () => {
+    render(
+      <TripsContext.Provider
+        value={{ ...mockFull, error: "Invalid stop number!" }}
+      >
+        <Trips />
+      </TripsContext.Provider>
+    );
+    expect(screen.getByText(/no data to display/i)).toBeInTheDocument();
+    expect(screen.queryByRole("list")).not.toBeInTheDocument();
+  });
+
   test("should display no list if no data given", () => {
     render(
       <TripsContext.Provider value={mockEmpty}>
