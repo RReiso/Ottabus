@@ -93,8 +93,8 @@ describe("Trip", () => {
     userEvent.click(timeInMinutes);
     expect(mockContext.handleLocation).toHaveBeenCalledTimes(1);
     expect(mockContext.handleLocation).toHaveBeenCalledWith({
-      Longitude: mockData.Trips[0].Longitude,
-      Latitude: mockData.Trips[0].Latitude,
+      lng: Number(mockData.Trips[0].Longitude),
+      lat: Number(mockData.Trips[0].Latitude),
     });
   });
 });

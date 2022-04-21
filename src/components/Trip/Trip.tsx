@@ -11,6 +11,7 @@ import {
 import DepartureBoardIcon from "@mui/icons-material/DepartureBoard";
 import InfoIcon from "@mui/icons-material/Info";
 import { useTripsContext } from "../context/TripsContext";
+import ScrollIntoView from "react-scroll-into-view";
 
 interface Provider {
   [key: string]: any;
@@ -31,42 +32,48 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
   const bgColor = (time: string) =>
     Number(time) < 10 ? "error.main" : "grey.600";
 
+  console.log("data", data);
+
   const tripDetails = (arr: Array<{}>) => {
-    return arr.map((nextBus: Provider) => {
+    return arr.map((nextBus: Provider, idx: number) => {
       return (
-        <ListItem
-          onClick={() =>
-            handleLocation({
-              Longitude: nextBus.Longitude,
-              Latitude: nextBus.Latitude,
-            })
-          }
-          sx={{
-            padding: 0,
-            justifyContent: "center",
-          }}
-          key={nextBus.TripStartTime}
+        <ScrollIntoView
+          selector="#map"
+          key={idx + nextBus.AdjustedScheduleTime}
         >
-          <Paper
+          <ListItem
+            onClick={() =>
+              handleLocation({
+                lng: Number(nextBus.Longitude),
+                lat: Number(nextBus.Latitude),
+              })
+            }
             sx={{
-              bgcolor: bgColor(nextBus.AdjustedScheduleTime),
-              paddingX: 1,
-              cursor: "pointer",
-              "&:hover": {
-                opacity: 0.8,
-              },
+              padding: 0,
+              justifyContent: "center",
             }}
           >
-            <ListItemText
+            <Paper
               sx={{
-                lineHeight: 1,
-                color: "white",
+                bgcolor: bgColor(nextBus.AdjustedScheduleTime),
+                paddingX: 1,
+                cursor: "pointer",
+                "&:hover": {
+                  opacity: 0.8,
+                },
               }}
             >
-              {nextBus.AdjustedScheduleTime}m
-            </ListItemText>
-          </Paper>
-        </ListItem>
+              <ListItemText
+                sx={{
+                  lineHeight: 1,
+                  color: "white",
+                }}
+              >
+                {nextBus.AdjustedScheduleTime}m
+              </ListItemText>
+            </Paper>
+          </ListItem>
+        </ScrollIntoView>
       );
     });
   };
@@ -74,7 +81,7 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
   return (
     <ListItem>
       <Paper variant="outlined">
-        <Stack m={2} width="12rem">
+        <Stack m={2} width="13rem">
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ ...shapeStyles, ...shapeCircleStyles }}>
               <Typography
@@ -102,6 +109,7 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
               sx={{
                 display: "flex",
                 flexDirection: "row",
+                justifyContent: "space-evenly",
                 padding: 0,
               }}
             >
@@ -117,7 +125,7 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
           <Stack direction="row" alignItems="center" my={1} mt={2} mx={1}>
             <InfoIcon sx={{ color: "#6b6575" }} />
             <Typography variant="caption" ml={1}>
-              Click on minutes to see current location of a bus
+              Click on minutes to see current location of the bus
             </Typography>
           </Stack>
         </Stack>
