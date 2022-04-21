@@ -6,6 +6,7 @@ import Header from "./components/Header/Header";
 import StopInput from "./components/StopInput/StopInput";
 import Trips from "./components/Trips/Trips";
 import Footer from "./components/Footer/Footer";
+import BusMap from "./components/Map/BusMap";
 
 const theme = createTheme({
   typography: {
@@ -28,6 +29,7 @@ function App() {
           <Header />
           <StopInput />
           <Trips />
+          <BusMap />
         </Stack>
         <Footer />
       </TripsProvider>
