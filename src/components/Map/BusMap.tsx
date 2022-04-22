@@ -34,7 +34,7 @@ const BusMap: FC = (): JSX.Element => {
   let zoom;
   if (location && location.lat !== 0 && location.lng !== 0) {
     coordinates = { ...location };
-    zoom = 14;
+    zoom = 15;
   } else {
     coordinates = { lat: 45.424721, lng: -75.695 }; // Ottawa
     zoom = 10;
@@ -62,10 +62,8 @@ const BusMap: FC = (): JSX.Element => {
 
   const onLoad = (marker: any) => {
     console.log("marker: ", marker);
-    console.log("markerpos.", marker.position.lat);
   };
 
-  const position = { lat: 45.424721, lng: -75.695 };
   return (
     <Stack alignItems="center" mt={2} mb={4} id="map">
       {message && (
@@ -87,11 +85,18 @@ const BusMap: FC = (): JSX.Element => {
           zoom={zoom}
           center={coordinates}
         >
-          <Marker
-            position={{ lat: 45.424721, lng: -75.695 }}
-            onClick={() => alert("HI")}
-            onLoad={onLoad}
-          />
+          {zoom === 15 && (
+            <Marker
+              position={coordinates}
+              onLoad={onLoad}
+              icon={{
+                url: `/pin.png`,
+                origin: new window.google.maps.Point(0, 0),
+                anchor: new window.google.maps.Point(15, 15),
+                scaledSize: new window.google.maps.Size(60, 60),
+              }}
+            />
+          )}
         </GoogleMap>
       </Box>
     </Stack>
