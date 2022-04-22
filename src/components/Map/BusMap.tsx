@@ -1,8 +1,9 @@
-import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker } from "@react-google-maps/api";
+
 import { Box, Stack, Typography } from "@mui/material";
 import BusAlertIcon from "@mui/icons-material/BusAlert";
 import { useLoadScript } from "@react-google-maps/api";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { useTripsContext } from "../context/TripsContext";
 
 const BusMap: FC = (): JSX.Element => {
@@ -21,8 +22,7 @@ const BusMap: FC = (): JSX.Element => {
     handleLocation: (value: object) => void;
   };
 
-  const { location, handleLocation, error } =
-    useTripsContext() as TripsContextType;
+  const { location } = useTripsContext() as TripsContextType;
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLEMAPS_API_KEY as string,
@@ -34,7 +34,7 @@ const BusMap: FC = (): JSX.Element => {
   let zoom;
   if (location && location.lat !== 0 && location.lng !== 0) {
     coordinates = { ...location };
-    zoom = 13;
+    zoom = 14;
   } else {
     coordinates = { lat: 45.424721, lng: -75.695 }; // Ottawa
     zoom = 10;
@@ -60,6 +60,12 @@ const BusMap: FC = (): JSX.Element => {
       </Typography>
     );
 
+  const onLoad = (marker: any) => {
+    console.log("marker: ", marker);
+    console.log("markerpos.", marker.position.lat);
+  };
+
+  const position = { lat: 45.424721, lng: -75.695 };
   return (
     <Stack alignItems="center" my={2} id="map">
       {message && (
@@ -80,10 +86,16 @@ const BusMap: FC = (): JSX.Element => {
           mapContainerStyle={mapContainerStyle}
           zoom={zoom}
           center={coordinates}
-        ></GoogleMap>
+        >
+          <Marker
+            position={{ lat: 45.424721, lng: -75.695 }}
+            onClick={() => alert("HI")}
+            onLoad={onLoad}
+          />
+        </GoogleMap>
       </Box>
     </Stack>
   );
 };
 
-export default BusMap;
+export default React.memo(BusMap);
