@@ -11,7 +11,10 @@ import BusMap from "./components/Map/BusMap";
 const theme = createTheme({
   typography: {
     h1: {
-      fontSize: 24,
+      fontSize: 42,
+      letterSpacing: 2,
+      fontWeight: "bold",
+      color: "#1976d2",
     },
     caption: {
       fontSize: 12,

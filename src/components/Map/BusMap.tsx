@@ -42,7 +42,7 @@ const BusMap: FC = (): JSX.Element => {
 
   let message;
   if (location && location.lat === 0 && location.lng === 0) {
-    message = "The selected bus has not yet departed!";
+    message = "Bus location not available!";
   }
 
   console.log("coordinates", coordinates);
@@ -67,10 +67,10 @@ const BusMap: FC = (): JSX.Element => {
 
   const position = { lat: 45.424721, lng: -75.695 };
   return (
-    <Stack alignItems="center" my={2} id="map">
+    <Stack alignItems="center" mt={2} mb={4} id="map">
       {message && (
         <Stack direction="row">
-          <BusAlertIcon />
+          <BusAlertIcon style={{ color: "#C71919" }} />
           <Typography mx={1} mb={2} variant="body1">
             {message}
           </Typography>

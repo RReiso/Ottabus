@@ -23,7 +23,7 @@ const Trips = (): JSX.Element => {
         </Typography>
       )}
       {!error && trips && (
-        <Stack alignItems="center" mt={3}>
+        <Stack alignItems="center" mt={4}>
           <Typography variant="h6">
             You are at stop {trips.GetRouteSummaryForStopResult.StopNo}
           </Typography>
@@ -34,18 +34,28 @@ const Trips = (): JSX.Element => {
             Upcoming Trips
           </Typography>
           <List>
-            {Array.isArray(trips.GetRouteSummaryForStopResult.Routes.Route) ? (
-              trips.GetRouteSummaryForStopResult.Routes.Route.map(
-                (trip: Provider, idx: number) => <Trip data={trip} key={idx} />
-              )
-            ) : (
-              <Trip
-                data={trips.GetRouteSummaryForStopResult.Routes.Route}
-                key={
-                  trips.GetRouteSummaryForStopResult.Routes.Route.DirectionID
-                }
-              />
-            )}
+            <Stack
+              flexWrap="wrap"
+              justifyContent="center"
+              sx={{ flexDirection: { xs: "column", sm: "row" } }}
+            >
+              {Array.isArray(
+                trips.GetRouteSummaryForStopResult.Routes.Route
+              ) ? (
+                trips.GetRouteSummaryForStopResult.Routes.Route.map(
+                  (trip: Provider, idx: number) => (
+                    <Trip data={trip} key={idx} />
+                  )
+                )
+              ) : (
+                <Trip
+                  data={trips.GetRouteSummaryForStopResult.Routes.Route}
+                  key={
+                    trips.GetRouteSummaryForStopResult.Routes.Route.DirectionID
+                  }
+                />
+              )}
+            </Stack>
           </List>
         </Stack>
       )}

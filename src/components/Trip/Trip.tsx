@@ -32,15 +32,10 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
   const bgColor = (time: string) =>
     Number(time) < 10 ? "error.main" : "grey.600";
 
-  console.log("data", data);
-
   const tripDetails = (arr: Array<{}>) => {
     return arr.map((nextBus: Provider, idx: number) => {
       return (
-        <ScrollIntoView
-          selector="#map"
-          key={idx + nextBus.AdjustedScheduleTime}
-        >
+        <ScrollIntoView selector="#map" key={idx}>
           <ListItem
             onClick={() =>
               handleLocation({
@@ -79,7 +74,7 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
   };
 
   return (
-    <ListItem>
+    <ListItem sx={{ width: "17rem" }}>
       <Paper variant="outlined">
         <Stack m={2} width="13rem">
           <Stack direction="row" alignItems="center">
