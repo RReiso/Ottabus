@@ -28,8 +28,6 @@ const BusMap: FC = (): JSX.Element => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLEMAPS_API_KEY as string,
   });
 
-  const mapContainerStyle = { width: "100%", height: "100%" };
-
   let coordinates;
   let zoom;
   if (location && location.lat !== 0 && location.lng !== 0) {
@@ -45,8 +43,6 @@ const BusMap: FC = (): JSX.Element => {
     message = "Bus location not available!";
   }
 
-  console.log("coordinates", coordinates);
-  console.log("location", location);
   if (loadError)
     return (
       <Typography mt={1} variant="body2" textAlign="center">
@@ -81,7 +77,7 @@ const BusMap: FC = (): JSX.Element => {
         }}
       >
         <GoogleMap
-          mapContainerStyle={mapContainerStyle}
+          mapContainerStyle={{ width: "100%", height: "100%" }}
           zoom={zoom}
           center={coordinates}
         >
@@ -92,8 +88,8 @@ const BusMap: FC = (): JSX.Element => {
               icon={{
                 url: `/pin.png`,
                 origin: new window.google.maps.Point(0, 0),
-                anchor: new window.google.maps.Point(15, 15),
-                scaledSize: new window.google.maps.Size(60, 60),
+                anchor: new window.google.maps.Point(10, 10),
+                scaledSize: new window.google.maps.Size(70, 70),
               }}
             />
           )}

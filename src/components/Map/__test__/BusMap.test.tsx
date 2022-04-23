@@ -1,8 +1,7 @@
-import BusMap from "../BusMap";
 import React from "react";
+import BusMap from "../BusMap";
 import { screen, render } from "@testing-library/react";
 import { TripsContext } from "../../context/TripsContext";
-import { waitFor, waitForElementToBeRemoved } from "@testing-library/dom";
 
 jest.mock("@react-google-maps/api", () => ({
   useLoadScript: () => ({
