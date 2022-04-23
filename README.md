@@ -17,7 +17,7 @@
 
 ## Description
 
-With constantly increasing gas prices more and more people rely on local public transportation daily. I live in Ottawa and use OC transpo services often. This app helps fellow commuters learn what buses are coming to a particular stop and in how many minutes they will arrive. The app also shows the current location of a selected bus on an integrated Google map, as well as the current weather in Ottawa. To build this app I used OC Transpo API, Google Maps API and Open Weather API. This app is my first attempt using TypeScript and MaterialUI. I keep learning React Testing Library and used it to write tests for Ottabus.
+With constantly increasing gas prices more and more people rely on local public transportation daily. I live in Ottawa and use OC transpo services often. This app helps fellow commuters learn what buses are coming to a particular stop and in how many minutes they will arrive. The app also shows the current location of a selected bus on an integrated Google map, as well as the current weather in Ottawa. To build this app I used OC Transpo API, Google Maps API and Open Weather API. This app is my first attempt using TypeScript and MaterialUI. I am constantly working on improving my testing skills and I used React Testing Library to write tests for Ottabus.
 
 ## Key Features
 
