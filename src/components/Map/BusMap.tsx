@@ -88,7 +88,6 @@ const BusMap: FC = (): JSX.Element => {
               icon={{
                 url: `/pin.png`,
                 origin: new window.google.maps.Point(0, 0),
-                anchor: new window.google.maps.Point(10, 10),
                 scaledSize: new window.google.maps.Size(70, 70),
               }}
             />
