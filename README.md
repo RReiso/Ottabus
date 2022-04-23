@@ -1,6 +1,6 @@
 <h1 align="center">
  <br>
-  <a href=""><img src="./src/images/bus.png" alt="Red bus" width="150"></a>
+  <a href="https://ottabus.netlify.app/"><img src="./src/images/bus.png" alt="Red bus" width="150"></a>
   <br>
   OTTABUS
 </h1>
@@ -13,7 +13,7 @@
 </p>
 <p align="center">
 <img src="./public/video/ottabus.gif" width="500" alt="Demo video of Ottabus app"></p>
-<h3 align="center"><a  href="">See live</a></h3>
+<h3 align="center"><a  href="https://ottabus.netlify.app/">See live</a></h3>
 
 ## Description
 
@@ -30,36 +30,44 @@ With constantly increasing gas prices more and more people rely on local public 
 ## Project Screenshots
 
 <p align="center">
-  <img src ="./public/img1.png" width="600" alt="project screenshot"></p>
+  <img src ="./public/img1.png" width="500" alt="project screenshot"></p>
  <p align="center">
-  <img src="./public/img1.png" width="300" alt="project screenshot">
-  <img src="./public/images/dropdown.png" width="600" alt="project screenshot">
+  <img src="" width="300" alt="project screenshot">
+  <img src="" width="600" alt="project screenshot">
   </p>
  <p align="center">
   <img src ="./public/images/order.png" width="500" alt="project screenshot"></p>
 
 ## Getting Started
 
-Clone the repository:
+1. Clone the repository:
 
 ```
 git clone git@github.com:RReiso/Ottabus.git
 cd Ottabus
 ```
 
-Install dependencies:
+2. Create the .env file by using .env.example as a reference:
+
+```
+cp .env.example .env
+```
+
+3. Update the .env file
+
+4. Install dependencies:
 
 ```
 npm install
 ```
 
-Run the app:
+5. Run the app:
 
 ```
 npm start
 ```
 
-Open http://localhost:3000 to view it in your browser.
+6. Open http://localhost:3000 to view it in your browser.
 
 ## Dependencies
 

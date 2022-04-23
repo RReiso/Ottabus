@@ -1,10 +1,8 @@
-import React, { FC } from "react";
+import React from "react";
 import { screen, render } from "@testing-library/react";
 import { within } from "@testing-library/dom";
 import Trip from "../Trip";
 import { TripsContext } from "../../context/TripsContext";
-import userEvent from "@testing-library/user-event";
-import BusMap from "../../Map/BusMap";
 
 describe("Trip", () => {
   type TripsContextType = {
