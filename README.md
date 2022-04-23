@@ -17,7 +17,7 @@
 
 ## Description
 
-With constantly increasing gas prices more and more people rely on local public transportation daily. I live in Ottawa and use OC transpo services often. This app helps fellow commuters learn what buses are coming to a particular stop and in how many minutes they will arrive. The app also shows the current location of a selected bus on an integrated Google map, as well as the current weather in Ottawa. To build this app I used OC Transpo API, Google Maps API and Open Weather API. This app is my first attempt using TypeScript and MaterialUI. I am constantly working on improving my testing skills and I used React Testing Library to write tests for Ottabus.
+With constantly increasing gas prices more and more people rely on local public transportation daily. I live in Ottawa and I often use OC transpo services. This app helps fellow commuters learn what buses are coming to a particular stop and in how many minutes they will arrive. The app also shows the current location of a selected bus on an integrated Google map, as well as the current weather in Ottawa. To build this app I used OC Transpo API, Google Maps API and Open Weather API. This app is also my first attempt using TypeScript and MaterialUI. I am constantly working on improving my testing skills and I used React Testing Library to write tests for Ottabus.
 
 ## Key Features
 
@@ -32,11 +32,17 @@ With constantly increasing gas prices more and more people rely on local public 
 <p align="center">
   <img src ="./public/img1.png" width="500" alt="project screenshot"></p>
  <p align="center">
-  <img src="" width="300" alt="project screenshot">
-  <img src="" width="600" alt="project screenshot">
+  <img src="./public/img2.png" width="500" alt="project screenshot">
   </p>
  <p align="center">
-  <img src ="./public/images/order.png" width="500" alt="project screenshot"></p>
+  <img src="./public/img5.png" width="250" alt="project screenshot">
+  <img src="./public/img6.png" width="250" alt="project screenshot">
+
+  </p>
+ <p align="center">
+  <img src ="./public/img3.png" width="600" alt="project screenshot"></p>
+ <p align="center">
+  <img src ="./public/img4.png" width="300" alt="project screenshot"></p>
 
 ## Getting Started
 
