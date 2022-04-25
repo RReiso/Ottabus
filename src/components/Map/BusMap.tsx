@@ -28,8 +28,8 @@ const BusMap: FC = (): JSX.Element => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLEMAPS_API_KEY as string,
   });
 
-  let coordinates;
-  let zoom;
+  let coordinates: { lat: number; lng: number };
+  let zoom: number;
   if (location && location.lat !== 0 && location.lng !== 0) {
     coordinates = { ...location };
     zoom = 15;
@@ -38,7 +38,7 @@ const BusMap: FC = (): JSX.Element => {
     zoom = 10;
   }
 
-  let message;
+  let message: string | undefined;
   if (location && location.lat === 0 && location.lng === 0) {
     message = "Bus location not available!";
   }
