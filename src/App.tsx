@@ -7,6 +7,7 @@ import StopInput from "./components/StopInput/StopInput";
 import Trips from "./components/Trips/Trips";
 import Footer from "./components/Footer/Footer";
 import BusMap from "./components/Map/BusMap";
+import "./index.css";
 
 const theme = createTheme({
   typography: {

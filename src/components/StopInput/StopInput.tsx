@@ -1,5 +1,5 @@
 import React, { useState, FC } from "react";
-import { Typography, TextField, Stack, Button } from "@mui/material";
+import { Typography, TextField, Stack, Box } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTripsContext } from "../context/TripsContext";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
@@ -68,21 +68,46 @@ const StopInput: FC = (): JSX.Element => {
     >
       <Typography variant="body1" textAlign="center">
         Try out the app with some sample stop numbers:
-        <span style={{ fontWeight: "bold", color: "#1976d2" }}>
+        <span onClick={() => setStop("7633")} className="sampleStop">
           {" "}
-          7633, 7687, 8852, 1111
+          7633,
         </span>
+        <span onClick={() => setStop("7687")} className="sampleStop">
+          {" "}
+          7687,
+        </span>
+        <span onClick={() => setStop("8852")} className="sampleStop">
+          {" "}
+          8852,
+        </span>
+        <span onClick={() => setStop("1111")} className="sampleStop">
+          {" "}
+          1111
+        </span>
+        !
       </Typography>
       <Typography variant="body1"> Enter stop number</Typography>
-      <TextField
-        id="filled-basic"
-        label="Stop number"
-        variant="filled"
-        value={stop}
-        onChange={(e) => setStop(e.target.value)}
-        required
-        type="number"
-      />
+      <Stack>
+        <TextField
+          id="filled-basic"
+          label="Stop number"
+          variant="filled"
+          value={stop}
+          onChange={(e) => setStop(e.target.value)}
+          required
+          type="number"
+        />
+        <Typography
+          sx={{ cursor: "pointer" }}
+          onClick={() => setStop("7633")}
+          my={1}
+          variant="caption"
+          alignSelf="start"
+        >
+          Example:
+          <span> 7633</span>
+        </Typography>
+      </Stack>
       <LoadingButton
         variant="contained"
         loading={loading}
@@ -93,7 +118,6 @@ const StopInput: FC = (): JSX.Element => {
       >
         {loading ? "Searching..." : "Find trips"}
       </LoadingButton>
-
       {error && (
         <Typography color="#c71919" variant="body2">
           {error}
