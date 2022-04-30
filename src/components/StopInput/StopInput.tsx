@@ -47,7 +47,9 @@ const StopInput: FC = (): JSX.Element => {
         `https://serene-stream-71987.herokuapp.com/https://api.octranspo1.com/v2.0/GetNextTripsForStopAllRoutes?appID=${process.env.REACT_APP_OCTRANSPO_APP_ID}&apiKey=${process.env.REACT_APP_OCTRANSPO_API_KEY}&stopNo=${stopNumber}`
       );
       if (res.data[1] === "<") {
-        handleError("Sorry, a stop with the given number does not exist");
+        handleError(
+          "Sorry, a stop with the given number does not exist or is out of service"
+        );
       } else if (res.data.error || res.data === "API method not found") {
         handleError("Error retrieving data");
       } else {
