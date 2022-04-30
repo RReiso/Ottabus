@@ -38,7 +38,7 @@ describe("Trip", () => {
     );
 
     expect(
-      screen.getByText(/Bus location not available!/i)
+      screen.getByText(/Bus location currently not available/i)
     ).toBeInTheDocument();
   });
 });

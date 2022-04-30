@@ -107,7 +107,7 @@ describe("StopInput", () => {
 
     await waitFor(() => expect(mockContext.handleError).toHaveBeenCalled());
     expect(mockContext.handleError).toHaveBeenCalledWith(
-      "Data currently not available"
+      "Data currently not available. Try again later!"
     );
   });
 
@@ -127,7 +127,7 @@ describe("StopInput", () => {
 
     await waitFor(() => expect(mockContext.handleError).toHaveBeenCalled());
     expect(mockContext.handleError).toHaveBeenCalledWith(
-      "Invalid stop number!"
+      "Sorry, a stop with the given number does not exist or is out of service"
     );
   });
 
