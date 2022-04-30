@@ -1,5 +1,5 @@
 import React, { useState, FC } from "react";
-import { Typography, TextField, Stack } from "@mui/material";
+import { Typography, TextField, Stack, Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTripsContext } from "../context/TripsContext";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
@@ -66,6 +66,13 @@ const StopInput: FC = (): JSX.Element => {
       component="form"
       onSubmit={handleSubmit}
     >
+      <Typography variant="body1" textAlign="center">
+        Try out the app with some sample stop numbers:
+        <span style={{ fontWeight: "bold", color: "#1976d2" }}>
+          {" "}
+          7633, 7687, 8852, 1111
+        </span>
+      </Typography>
       <Typography variant="body1"> Enter stop number</Typography>
       <TextField
         id="filled-basic"
