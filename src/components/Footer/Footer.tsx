@@ -32,7 +32,7 @@ const Footer = (): JSX.Element => {
         alignItems="center"
         justifyContent="space-evenly"
         sx={{
-          height: 70,
+          height: 45,
           position: "fixed",
           bottom: 0,
           left: 0,
@@ -41,6 +41,7 @@ const Footer = (): JSX.Element => {
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center center",
+          boxShadow: "0px -2px 9px 0px rgba(80, 76, 74, 0.25)",
         }}
       >
         {error || !weather ? (
@@ -60,13 +61,13 @@ const Footer = (): JSX.Element => {
               src={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
               alt="current weather icon"
             />
-            <Typography variant="h4" color="white" sx={{ fontWeight: "bold" }}>
+            <Typography variant="h5" color="white" sx={{ fontWeight: "bold" }}>
               {weather.main.temp.toFixed(0)}&deg;C
             </Typography>
             <Typography
-              variant="h6"
               color="white"
               sx={{
+                fontSize: { xs: "1rem", sm: "1.25rem" },
                 fontWeight: "bold",
                 width: { xs: "5rem", sm: "9rem" },
                 lineHeight: "1.2",
