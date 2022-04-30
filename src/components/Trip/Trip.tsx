@@ -64,13 +64,23 @@ const Trip: FC<TripProps> = ({ data }): JSX.Element => {
                   color: "white",
                 }}
               >
-                {nextBus.AdjustedScheduleTime}m
+                {stopScheduledTime(nextBus.AdjustedScheduleTime)}
               </ListItemText>
             </Paper>
           </ListItem>
         </ScrollIntoView>
       );
     });
+  };
+
+  const stopScheduledTime = (timeInMinutes: string) => {
+    const time = parseInt(timeInMinutes);
+    if (time < 60) {
+      return timeInMinutes + "m";
+    }
+    const hours = Math.floor(time / 60);
+    const minutes = time % 60;
+    return `${hours}h ${minutes}m`;
   };
 
   return (
