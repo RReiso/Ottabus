@@ -1,5 +1,5 @@
 import React, { useState, FC } from "react";
-import { Typography, TextField, Stack, Box } from "@mui/material";
+import { Typography, TextField, Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTripsContext } from "../context/TripsContext";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
@@ -15,9 +15,10 @@ const StopInput: FC = (): JSX.Element => {
     error: string;
     handleTrips: (value: object) => void;
     handleError: (value: string) => void;
+    handleLocation: (value: object | undefined) => void;
   };
 
-  const { handleTrips, error, handleError } =
+  const { handleTrips, handleLocation, error, handleError } =
     useTripsContext() as TripsContextType;
 
   const [stop, setStop] = useState("");
@@ -37,6 +38,7 @@ const StopInput: FC = (): JSX.Element => {
       }
     }
     setLoading(false);
+    handleLocation(undefined);
   };
 
   const fetchData = async (stopNumber: string) => {
@@ -53,7 +55,7 @@ const StopInput: FC = (): JSX.Element => {
         return res.data;
       }
     } catch (err) {
-      handleError("Data currently not available");
+      handleError("Data currently not available. Try again later!");
     }
     setLoading(false);
   };
@@ -98,7 +100,7 @@ const StopInput: FC = (): JSX.Element => {
           type="number"
         />
         <Typography
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: "pointer", "&:hover": { opacity: 0.7 } }}
           onClick={() => setStop("7633")}
           my={1}
           variant="caption"

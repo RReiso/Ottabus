@@ -32,7 +32,7 @@ const TripsProvider: FC<{ children: ReactNode; value?: TripsContextType }> = ({
   const handleTrips = (value: object) => {
     setTrips(value);
   };
-  const handleLocation = (value: object) => {
+  const handleLocation = (value: object | undefined) => {
     setLocation(value);
   };
   const handleError = (value: string) => {
