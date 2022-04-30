@@ -28,7 +28,7 @@ const StopInput: FC = (): JSX.Element => {
     setLoading(true);
 
     if (stop.length !== 4) {
-      handleError("Invalid stop number!");
+      handleError("Please enter a four digit number");
     } else {
       const tripData = await fetchData(stop);
       if (tripData) {
@@ -45,7 +45,7 @@ const StopInput: FC = (): JSX.Element => {
         `https://serene-stream-71987.herokuapp.com/https://api.octranspo1.com/v2.0/GetNextTripsForStopAllRoutes?appID=${process.env.REACT_APP_OCTRANSPO_APP_ID}&apiKey=${process.env.REACT_APP_OCTRANSPO_API_KEY}&stopNo=${stopNumber}`
       );
       if (res.data[1] === "<") {
-        handleError("Invalid stop number!");
+        handleError("Sorry, a stop with the given number does not exist");
       } else if (res.data.error || res.data === "API method not found") {
         handleError("Error retrieving data");
       } else {
@@ -88,7 +88,7 @@ const StopInput: FC = (): JSX.Element => {
       </LoadingButton>
 
       {error && (
-        <Typography color="red" variant="body2">
+        <Typography color="#c71919" variant="body2">
           {error}
         </Typography>
       )}

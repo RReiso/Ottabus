@@ -40,7 +40,7 @@ const BusMap: FC = (): JSX.Element => {
 
   let message: string | undefined;
   if (location && location.lat === 0 && location.lng === 0) {
-    message = "Bus location not available!";
+    message = "Bus location currently not available";
   }
 
   if (loadError)
