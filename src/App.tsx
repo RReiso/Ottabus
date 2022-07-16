@@ -8,6 +8,7 @@ import Trips from "./components/Trips/Trips";
 import Footer from "./components/Footer/Footer";
 import BusMap from "./components/Map/BusMap";
 import "./index.css";
+import SocialLinks from "./components/SocialLinks/SocialLinks";
 
 const theme = createTheme({
   typography: {
@@ -34,6 +35,7 @@ function App() {
           <StopInput />
           <Trips />
           <BusMap />
+          <SocialLinks />
         </Stack>
         <Footer />
       </TripsProvider>
