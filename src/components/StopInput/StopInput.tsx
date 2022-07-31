@@ -4,6 +4,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useTripsContext } from "../context/TripsContext";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import axios from "axios";
+import StopMatches from "../StopMatches/StopMatches";
 
 const StopInput: FC = (): JSX.Element => {
   interface Provider {
@@ -22,6 +23,7 @@ const StopInput: FC = (): JSX.Element => {
     useTripsContext() as TripsContextType;
 
   const [allStops, setAllStops] = useState([]);
+  const [matches, setMatches] = useState([]);
   const [allStopsError, setAllStopsError] = useState("");
   const [stop, setStop] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,8 +34,6 @@ const StopInput: FC = (): JSX.Element => {
         const res = await axios.get(
           "https://serene-stream-71987.herokuapp.com/https://www.octranspo.com/route/map_data?type=stops"
         );
-        console.log(typeof res.data);
-        console.log(Array.isArray(res.data));
         setAllStops(res.data);
       } catch (err) {
         setAllStopsError("Error loading stop names");
@@ -43,11 +43,10 @@ const StopInput: FC = (): JSX.Element => {
   }, []);
 
   const handleStopChange = (value: string) => {
-    if (allStopsError) {
-      setStop(value);
-    } else {
+    setStop(value);
+    if (!allStopsError) {
       const matches = findMatches(value);
-      setStop(value);
+      setMatches(matches);
     }
   };
 
@@ -64,10 +63,13 @@ const StopInput: FC = (): JSX.Element => {
     });
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true);
+    handleInput();
+  };
 
+  const handleInput = async () => {
+    setLoading(true);
     const userEnteredANumber = Boolean(parseInt(stop));
     if (!userEnteredANumber || stop.length !== 4) {
       handleError("Please enter a four digit number");
@@ -144,6 +146,15 @@ const StopInput: FC = (): JSX.Element => {
           onChange={(e) => handleStopChange(e.target.value)}
           required
         />
+        {matches.length > 0 && (
+          <StopMatches
+            matches={matches}
+            setMatches={setMatches}
+            stop={stop}
+            setStop={setStop}
+          />
+        )}
+
         <Typography
           sx={{ cursor: "pointer", "&:hover": { opacity: 0.7 } }}
           onClick={() => setStop("7633")}
