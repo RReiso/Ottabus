@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, useEffect, FC } from "react";
 import { Typography, TextField, Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTripsContext } from "../context/TripsContext";
@@ -21,14 +21,32 @@ const StopInput: FC = (): JSX.Element => {
   const { handleTrips, handleLocation, error, handleError } =
     useTripsContext() as TripsContextType;
 
+  const [allStops, setAllStops] = useState("");
+  const [allStopsError, setAllStopsError] = useState("");
   const [stop, setStop] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchAllStops = async () => {
+      try {
+        const res = await axios.get(
+          "https://serene-stream-71987.herokuapp.com/https://www.octranspo.com/route/map_data?type=stops"
+        );
+        console.log(res.data);
+        setAllStops(res.data);
+      } catch (err) {
+        setAllStopsError("Error loading stop names");
+      }
+    };
+    fetchAllStops();
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
 
-    if (stop.length !== 4) {
+    const userEnteredANumber = Boolean(parseInt(stop));
+    if (!userEnteredANumber || stop.length !== 4) {
       handleError("Please enter a four digit number");
     } else {
       const tripData = await fetchData(stop);
@@ -48,7 +66,7 @@ const StopInput: FC = (): JSX.Element => {
       );
       if (res.data[1] === "<") {
         handleError(
-          "Sorry, a stop with the given number does not exist or is out of service"
+          "Sorry, a stop with the given number/name does not exist or is out of service"
         );
       } else if (res.data.error || res.data === "API method not found") {
         handleError("Error retrieving data");
@@ -90,16 +108,18 @@ const StopInput: FC = (): JSX.Element => {
         </span>
         !
       </Typography>
-      <Typography variant="body1"> Enter stop number</Typography>
+      <Typography pt={2} variant="body2" textAlign="center">
+        {" "}
+        Enter a stop number or start typing to choose a stop from the list
+      </Typography>
       <Stack>
         <TextField
           id="filled-basic"
-          label="Stop number"
+          label="Stop"
           variant="filled"
           value={stop}
           onChange={(e) => setStop(e.target.value)}
           required
-          type="number"
         />
         <Typography
           sx={{ cursor: "pointer", "&:hover": { opacity: 0.7 } }}
