@@ -21,7 +21,7 @@ const StopInput: FC = (): JSX.Element => {
   const { handleTrips, handleLocation, error, handleError } =
     useTripsContext() as TripsContextType;
 
-  const [allStops, setAllStops] = useState("");
+  const [allStops, setAllStops] = useState([]);
   const [allStopsError, setAllStopsError] = useState("");
   const [stop, setStop] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,8 @@ const StopInput: FC = (): JSX.Element => {
         const res = await axios.get(
           "https://serene-stream-71987.herokuapp.com/https://www.octranspo.com/route/map_data?type=stops"
         );
-        console.log(res.data);
+        console.log(typeof res.data);
+        console.log(Array.isArray(res.data));
         setAllStops(res.data);
       } catch (err) {
         setAllStopsError("Error loading stop names");
@@ -40,6 +41,28 @@ const StopInput: FC = (): JSX.Element => {
     };
     fetchAllStops();
   }, []);
+
+  const handleStopChange = (value: string) => {
+    if (allStopsError) {
+      setStop(value);
+    } else {
+      const matches = findMatches(value);
+      setStop(value);
+    }
+  };
+
+  const findMatches = (wordToMatch: string) => {
+    type Stop = {
+      [key: string]: string;
+    };
+    return allStops.filter((stop: Stop) => {
+      if (stop.name) {
+        const regex = new RegExp(wordToMatch, "gi");
+        return stop.name.match(regex);
+      }
+      return false;
+    });
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -118,7 +141,7 @@ const StopInput: FC = (): JSX.Element => {
           label="Stop"
           variant="filled"
           value={stop}
-          onChange={(e) => setStop(e.target.value)}
+          onChange={(e) => handleStopChange(e.target.value)}
           required
         />
         <Typography
