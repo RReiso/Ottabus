@@ -76,9 +76,7 @@ const StopInput: FC = (): JSX.Element => {
     setLoading(true);
     const userEnteredANumber = Boolean(parseInt(stop));
     if (!userEnteredANumber || stop.length !== 4) {
-      handleError(
-        "Please enter a four digit number or type at least three characters"
-      );
+      handleError("Please enter a four digit number or choose from the list");
     } else {
       const tripData = await fetchData(stop);
       if (tripData) {
