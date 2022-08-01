@@ -1,9 +1,16 @@
-import React, { useState, FC } from "react";
-import { Typography, TextField, Stack } from "@mui/material";
+import React, { useState, useEffect, FC } from "react";
+import {
+  Typography,
+  TextField,
+  Stack,
+  ListItemText,
+  ListItem,
+} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTripsContext } from "../context/TripsContext";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import axios from "axios";
+import StopMatches from "../StopMatches/StopMatches";
 
 const StopInput: FC = (): JSX.Element => {
   interface Provider {
@@ -13,7 +20,7 @@ const StopInput: FC = (): JSX.Element => {
   type TripsContextType = {
     trips: Provider | undefined;
     error: string;
-    handleTrips: (value: object) => void;
+    handleTrips: (value: object | undefined) => void;
     handleError: (value: string) => void;
     handleLocation: (value: object | undefined) => void;
   };
@@ -21,15 +28,67 @@ const StopInput: FC = (): JSX.Element => {
   const { handleTrips, handleLocation, error, handleError } =
     useTripsContext() as TripsContextType;
 
+  const [allStops, setAllStops] = useState([]);
+  const [matches, setMatches] = useState([]);
+  const [allStopsError, setAllStopsError] = useState("");
+  const [displayAllStopsError, setDisplayAllStopsError] = useState(false);
   const [stop, setStop] = useState("");
+  const [stopName, setStopName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoading(true);
+  useEffect(() => {
+    const fetchAllStops = async () => {
+      try {
+        const res = await axios.get(
+          "https://serene-stream-71987.herokuapp.com/https://www.octranspo.com/route/map_data?type=stops"
+        );
+        setAllStops(res.data);
+      } catch (err) {
+        setAllStopsError("Error loading stop names");
+      }
+    };
+    fetchAllStops();
+  }, []);
 
-    if (stop.length !== 4) {
-      handleError("Please enter a four digit number");
+  const handleStopChange = (value: string) => {
+    setDisplayAllStopsError(false);
+
+    setStopName("");
+    setStop(value);
+    if (!allStopsError && value.length > 2) {
+      const matches = findMatches(value);
+      setMatches(matches);
+    } else if (allStopsError && !/^\d+$/.test(value) && value.length > 2) {
+      setDisplayAllStopsError(true);
+    } else {
+      setMatches([]);
+    }
+  };
+
+  const findMatches = (wordToMatch: string) => {
+    type Stop = {
+      [key: string]: string;
+    };
+    return allStops.filter((stop: Stop) => {
+      if (stop.name) {
+        const regex = new RegExp(wordToMatch, "gi");
+        return stop.name.match(regex);
+      }
+      return false;
+    });
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setDisplayAllStopsError(false);
+    handleInput();
+  };
+
+  const handleInput = async () => {
+    setLoading(true);
+    const userEnteredANumber = /^\d+$/.test(stop);
+    if (!userEnteredANumber || stop.length !== 4) {
+      handleError("Please enter a four digit number or choose from the list");
     } else {
       const tripData = await fetchData(stop);
       if (tripData) {
@@ -38,6 +97,7 @@ const StopInput: FC = (): JSX.Element => {
       }
     }
     setLoading(false);
+    setStopName("");
     handleLocation(undefined);
   };
 
@@ -48,7 +108,7 @@ const StopInput: FC = (): JSX.Element => {
       );
       if (res.data[1] === "<") {
         handleError(
-          "Sorry, a stop with the given number does not exist or is out of service"
+          "Sorry, a stop with the given number/name does not exist or is out of service"
         );
       } else if (res.data.error || res.data === "API method not found") {
         handleError("Error retrieving data");
@@ -72,45 +132,66 @@ const StopInput: FC = (): JSX.Element => {
     >
       <Typography variant="body1" textAlign="center">
         Try out the app with some sample stop numbers:
-        <span onClick={() => setStop("7633")} className="sampleStop">
+        <span onClick={() => handleStopChange("7633")} className="sampleStop">
           {" "}
           7633,
         </span>
-        <span onClick={() => setStop("7687")} className="sampleStop">
+        <span onClick={() => handleStopChange("7687")} className="sampleStop">
           {" "}
           7687,
         </span>
-        <span onClick={() => setStop("8852")} className="sampleStop">
+        <span onClick={() => handleStopChange("8852")} className="sampleStop">
           {" "}
           8852,
         </span>
-        <span onClick={() => setStop("1111")} className="sampleStop">
+        <span onClick={() => handleStopChange("1111")} className="sampleStop">
           {" "}
           1111
         </span>
         !
       </Typography>
-      <Typography variant="body1"> Enter stop number</Typography>
+      <Typography pt={2} variant="body2" textAlign="center">
+        {" "}
+        Enter a stop number or type at least three characters to filter by name
+      </Typography>
       <Stack>
         <TextField
           id="filled-basic"
-          label="Stop number"
+          label="Stop"
           variant="filled"
           value={stop}
-          onChange={(e) => setStop(e.target.value)}
+          onChange={(e) => handleStopChange(e.target.value)}
           required
-          type="number"
         />
-        <Typography
-          sx={{ cursor: "pointer", "&:hover": { opacity: 0.7 } }}
-          onClick={() => setStop("7633")}
-          my={1}
-          variant="caption"
-          alignSelf="start"
-        >
-          Example:
-          <span> 7633</span>
-        </Typography>
+        {matches.length > 0 && (
+          <StopMatches
+            matches={matches}
+            setMatches={setMatches}
+            stop={stop}
+            setStop={setStop}
+            setStopName={setStopName}
+          />
+        )}
+        {displayAllStopsError && (
+          <ListItem>
+            <ListItemText primary={allStopsError} />
+          </ListItem>
+        )}
+        {stopName ? (
+          <Typography sx={{ color: "#1976d2" }} my={1} alignSelf="start">
+            {stopName}
+          </Typography>
+        ) : (
+          <Typography
+            sx={{ cursor: "pointer", "&:hover": { opacity: 0.7 } }}
+            onClick={() => setStop("7633")}
+            my={1}
+            variant="caption"
+            alignSelf="start"
+          >
+            Example: 7633
+          </Typography>
+        )}
       </Stack>
       <LoadingButton
         variant="contained"
@@ -123,7 +204,7 @@ const StopInput: FC = (): JSX.Element => {
         {loading ? "Searching..." : "Find trips"}
       </LoadingButton>
       {error && (
-        <Typography color="#c71919" variant="body2">
+        <Typography color="#c71919" variant="body2" textAlign="center">
           {error}
         </Typography>
       )}
