@@ -142,8 +142,7 @@ const StopInput: FC = (): JSX.Element => {
       </Typography>
       <Typography pt={2} variant="body2" textAlign="center">
         {" "}
-        Enter a stop number or type at least three characters to choose a stop
-        from the list
+        Enter a stop number or type at least three characters to filter by name
       </Typography>
       <Stack>
         <TextField
