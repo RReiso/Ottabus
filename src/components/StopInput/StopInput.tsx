@@ -14,7 +14,7 @@ const StopInput: FC = (): JSX.Element => {
   type TripsContextType = {
     trips: Provider | undefined;
     error: string;
-    handleTrips: (value: object) => void;
+    handleTrips: (value: object | undefined) => void;
     handleError: (value: string) => void;
     handleLocation: (value: object | undefined) => void;
   };
@@ -26,6 +26,7 @@ const StopInput: FC = (): JSX.Element => {
   const [matches, setMatches] = useState([]);
   const [allStopsError, setAllStopsError] = useState("");
   const [stop, setStop] = useState("");
+  const [stopName, setStopName] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -43,10 +44,13 @@ const StopInput: FC = (): JSX.Element => {
   }, []);
 
   const handleStopChange = (value: string) => {
+    setStopName("");
     setStop(value);
-    if (!allStopsError) {
+    if (!allStopsError && value.length > 2) {
       const matches = findMatches(value);
       setMatches(matches);
+    } else {
+      setMatches([]);
     }
   };
 
@@ -72,7 +76,9 @@ const StopInput: FC = (): JSX.Element => {
     setLoading(true);
     const userEnteredANumber = Boolean(parseInt(stop));
     if (!userEnteredANumber || stop.length !== 4) {
-      handleError("Please enter a four digit number");
+      handleError(
+        "Please enter a four digit number or type at least three characters"
+      );
     } else {
       const tripData = await fetchData(stop);
       if (tripData) {
@@ -135,7 +141,8 @@ const StopInput: FC = (): JSX.Element => {
       </Typography>
       <Typography pt={2} variant="body2" textAlign="center">
         {" "}
-        Enter a stop number or start typing to choose a stop from the list
+        Enter a stop number or type at least three characters to choose a stop
+        from the list
       </Typography>
       <Stack>
         <TextField
@@ -152,19 +159,24 @@ const StopInput: FC = (): JSX.Element => {
             setMatches={setMatches}
             stop={stop}
             setStop={setStop}
+            setStopName={setStopName}
           />
         )}
-
-        <Typography
-          sx={{ cursor: "pointer", "&:hover": { opacity: 0.7 } }}
-          onClick={() => setStop("7633")}
-          my={1}
-          variant="caption"
-          alignSelf="start"
-        >
-          Example:
-          <span> 7633</span>
-        </Typography>
+        {stopName ? (
+          <Typography my={1} variant="caption" alignSelf="start">
+            {stopName}
+          </Typography>
+        ) : (
+          <Typography
+            sx={{ cursor: "pointer", "&:hover": { opacity: 0.7 } }}
+            onClick={() => setStop("7633")}
+            my={1}
+            variant="caption"
+            alignSelf="start"
+          >
+            Example: 7633
+          </Typography>
+        )}
       </Stack>
       <LoadingButton
         variant="contained"
@@ -177,7 +189,7 @@ const StopInput: FC = (): JSX.Element => {
         {loading ? "Searching..." : "Find trips"}
       </LoadingButton>
       {error && (
-        <Typography color="#c71919" variant="body2">
+        <Typography color="#c71919" variant="body2" textAlign="center">
           {error}
         </Typography>
       )}
