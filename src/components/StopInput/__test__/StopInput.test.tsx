@@ -49,7 +49,7 @@ describe("StopInput", () => {
         <StopInput />
       </TripsContext.Provider>
     );
-    expect(screen.getByRole("spinbutton")).toBeInTheDocument();
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /find trips/i })
     ).toBeInTheDocument();
@@ -61,20 +61,20 @@ describe("StopInput", () => {
         <StopInput />
       </TripsContext.Provider>
     );
-    const inputField: HTMLInputElement = screen.getByRole("spinbutton");
+    const inputField: HTMLInputElement = screen.getByRole("textbox");
     userEvent.type(inputField, "1234");
     expect(inputField.value).toBe("1234");
   });
 
-  test("should not be able to input a non-digit", () => {
+  test("should be able to input text", () => {
     render(
       <TripsContext.Provider value={mockContext}>
         <StopInput />
       </TripsContext.Provider>
     );
-    const inputField: HTMLInputElement = screen.getByRole("spinbutton");
+    const inputField: HTMLInputElement = screen.getByRole("textbox");
     userEvent.type(inputField, "hello");
-    expect(inputField.value).not.toBe("hello");
+    expect(inputField.value).toBe("hello");
   });
 
   test("should not call handleTrips if input is invalid", () => {
@@ -83,7 +83,7 @@ describe("StopInput", () => {
         <StopInput />
       </TripsContext.Provider>
     );
-    const inputField: HTMLInputElement = screen.getByRole("spinbutton");
+    const inputField: HTMLInputElement = screen.getByRole("textbox");
     userEvent.type(inputField, "hello");
     userEvent.click(screen.getByRole("button"));
     expect(mockContext.handleTrips).toHaveBeenCalledTimes(0);
@@ -101,7 +101,7 @@ describe("StopInput", () => {
       </TripsContext.Provider>
     );
 
-    const inputField: HTMLInputElement = screen.getByRole("spinbutton");
+    const inputField: HTMLInputElement = screen.getByRole("textbox");
     userEvent.type(inputField, "1234");
     userEvent.click(screen.getByRole("button"));
 
@@ -121,13 +121,13 @@ describe("StopInput", () => {
       </TripsContext.Provider>
     );
 
-    const inputField: HTMLInputElement = screen.getByRole("spinbutton");
+    const inputField: HTMLInputElement = screen.getByRole("textbox");
     userEvent.type(inputField, "5555");
     userEvent.click(screen.getByRole("button"));
 
     await waitFor(() => expect(mockContext.handleError).toHaveBeenCalled());
     expect(mockContext.handleError).toHaveBeenCalledWith(
-      "Sorry, a stop with the given number does not exist or is out of service"
+      "Sorry, a stop with the given number/name does not exist or is out of service"
     );
   });
 
@@ -143,7 +143,7 @@ describe("StopInput", () => {
       </TripsContext.Provider>
     );
 
-    const inputField: HTMLInputElement = screen.getByRole("spinbutton");
+    const inputField: HTMLInputElement = screen.getByRole("textbox");
     userEvent.type(
       inputField,
       mockResponseSuccess.GetRouteSummaryForStopResult.StopNo
@@ -163,7 +163,7 @@ describe("StopInput", () => {
       </TripsContext.Provider>
     );
 
-    const inputField: HTMLInputElement = screen.getByRole("spinbutton");
+    const inputField: HTMLInputElement = screen.getByRole("textbox");
     userEvent.type(inputField, "7633");
     userEvent.click(screen.getByRole("button"));
     const loadingButton = await screen.findByRole("button", {
