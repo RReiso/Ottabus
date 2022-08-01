@@ -87,6 +87,7 @@ const StopInput: FC = (): JSX.Element => {
       }
     }
     setLoading(false);
+    setStopName("");
     handleLocation(undefined);
   };
 
@@ -121,19 +122,19 @@ const StopInput: FC = (): JSX.Element => {
     >
       <Typography variant="body1" textAlign="center">
         Try out the app with some sample stop numbers:
-        <span onClick={() => setStop("7633")} className="sampleStop">
+        <span onClick={() => handleStopChange("7633")} className="sampleStop">
           {" "}
           7633,
         </span>
-        <span onClick={() => setStop("7687")} className="sampleStop">
+        <span onClick={() => handleStopChange("7687")} className="sampleStop">
           {" "}
           7687,
         </span>
-        <span onClick={() => setStop("8852")} className="sampleStop">
+        <span onClick={() => handleStopChange("8852")} className="sampleStop">
           {" "}
           8852,
         </span>
-        <span onClick={() => setStop("1111")} className="sampleStop">
+        <span onClick={() => handleStopChange("1111")} className="sampleStop">
           {" "}
           1111
         </span>
