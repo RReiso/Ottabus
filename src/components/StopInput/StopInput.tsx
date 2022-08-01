@@ -1,5 +1,11 @@
 import React, { useState, useEffect, FC } from "react";
-import { Typography, TextField, Stack } from "@mui/material";
+import {
+  Typography,
+  TextField,
+  Stack,
+  ListItemText,
+  ListItem,
+} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useTripsContext } from "../context/TripsContext";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
@@ -25,6 +31,7 @@ const StopInput: FC = (): JSX.Element => {
   const [allStops, setAllStops] = useState([]);
   const [matches, setMatches] = useState([]);
   const [allStopsError, setAllStopsError] = useState("");
+  const [displayAllStopsError, setDisplayAllStopsError] = useState(false);
   const [stop, setStop] = useState("");
   const [stopName, setStopName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,11 +51,15 @@ const StopInput: FC = (): JSX.Element => {
   }, []);
 
   const handleStopChange = (value: string) => {
+    setDisplayAllStopsError(false);
+
     setStopName("");
     setStop(value);
     if (!allStopsError && value.length > 2) {
       const matches = findMatches(value);
       setMatches(matches);
+    } else if (allStopsError && !/^\d+$/.test(value) && value.length > 2) {
+      setDisplayAllStopsError(true);
     } else {
       setMatches([]);
     }
@@ -69,12 +80,13 @@ const StopInput: FC = (): JSX.Element => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setDisplayAllStopsError(false);
     handleInput();
   };
 
   const handleInput = async () => {
     setLoading(true);
-    const userEnteredANumber = Boolean(parseInt(stop));
+    const userEnteredANumber = /^\d+$/.test(stop);
     if (!userEnteredANumber || stop.length !== 4) {
       handleError("Please enter a four digit number or choose from the list");
     } else {
@@ -160,8 +172,13 @@ const StopInput: FC = (): JSX.Element => {
             setStopName={setStopName}
           />
         )}
+        {displayAllStopsError && (
+          <ListItem>
+            <ListItemText primary={allStopsError} />
+          </ListItem>
+        )}
         {stopName ? (
-          <Typography my={1} variant="caption" alignSelf="start">
+          <Typography sx={{ color: "#1976d2" }} my={1} alignSelf="start">
             {stopName}
           </Typography>
         ) : (
