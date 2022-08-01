@@ -24,7 +24,8 @@ I am constantly working on improving my testing skills and I followed the TDD ap
 ## Key Features
 
 - Responsive design
-- Enter stop number
+- Search trips by stop number
+- Search trips by stop name
 - See upcoming trips
 - See in how many minutes the buses are arriving
 - See the location of a selected bus on a map
