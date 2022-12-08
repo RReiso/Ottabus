@@ -104,7 +104,7 @@ const StopInput: FC = (): JSX.Element => {
   const fetchData = async (stopNumber: string) => {
     try {
       const res = await axios.get(
-        `https://serene-stream-71987.herokuapp.com/https://api.octranspo1.com/v2.0/GetNextTripsForStopAllRoutes?appID=${process.env.REACT_APP_OCTRANSPO_APP_ID}&apiKey=${process.env.REACT_APP_OCTRANSPO_API_KEY}&stopNo=${stopNumber}`
+        `https://cors-any.onrender.com/https://api.octranspo1.com/v2.0/GetNextTripsForStopAllRoutes?appID=${process.env.REACT_APP_OCTRANSPO_APP_ID}&apiKey=${process.env.REACT_APP_OCTRANSPO_API_KEY}&stopNo=${stopNumber}`
       );
       if (res.data[1] === "<") {
         handleError(
